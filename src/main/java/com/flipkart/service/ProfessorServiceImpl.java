@@ -2,6 +2,7 @@ package com.flipkart.service;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
 import com.flipkart.dao.ProfessorDAO;
 import com.flipkart.dao.ProfessorDAOImpl;
 import org.apache.log4j.Logger;
@@ -19,8 +20,8 @@ public class ProfessorServiceImpl implements ProfessorService {
     private static Logger logger = Logger.getLogger(ProfessorServiceImpl.class);
 
     @Override
-    public void viewStudents(Professor professor) {
-        professorDAO.viewStudents(professor);
+    public List<Student> viewStudents(Professor professor) {
+        return professorDAO.viewStudents(professor);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.flipkart.dao;
 
 import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
 
 import java.util.List;
 
@@ -13,8 +14,9 @@ public interface ProfessorDAO {
      * View students.
      *
      * @param professor the professor
+     * @return
      */
-    public void viewStudents(Professor professor);
+    public List<Student> viewStudents(Professor professor);
 
     /**
      * Gets course taught.

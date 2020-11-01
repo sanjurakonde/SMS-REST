@@ -2,6 +2,8 @@ package com.flipkart.service;
 
 import com.flipkart.bean.Course;
 
+import java.util.List;
+
 /**
  * The interface Course service.
  */
@@ -16,5 +18,5 @@ public interface CourseService {
     /**
      * List courses.
      */
-    void listCourses();
+    List<Course> listCourses();
 }

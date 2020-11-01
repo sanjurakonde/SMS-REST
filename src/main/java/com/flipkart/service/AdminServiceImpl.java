@@ -70,20 +70,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void viewUsers() {
-        try {
+    public List<User> viewUsers() {
             List<User> userList = adminDAO.viewUsers();
-            logger.info("--Professors are:--");
-            printUsersBasedOnRole(userList, "Professor");
-
-            logger.info("--Students are:--");
-            printUsersBasedOnRole(userList, "Student");
-
-            logger.info("--Admins are:--");
-            printUsersBasedOnRole(userList, "Admin");
-        }catch(Exception exception) {
-            logger.error(exception.getMessage());
-        }
+            return userList;
     }
 
     /**

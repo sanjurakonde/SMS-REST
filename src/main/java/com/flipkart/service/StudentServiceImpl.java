@@ -19,7 +19,7 @@ public class StudentServiceImpl implements StudentService {
      */
     StudentDAO studentDAO = new StudentDAOImpl();
     @Override
-    public void viewRegisteredCourses(Student student) {
+    public ArrayList<Course> viewRegisteredCourses(Student student) {
         ArrayList<Course> courseList = studentDAO.viewRegisteredCourses(student);
         if(courseList.size() == 0) {
             logger.info("No registered courses");
@@ -28,6 +28,7 @@ public class StudentServiceImpl implements StudentService {
             logger.info("Course Id\tCourse Name");
             courseList.forEach(course -> logger.info(course.getCourseId() +  "\t\t " + course.getCourseName()));
         }
+        return courseList;
     }
 
     @Override

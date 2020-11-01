@@ -1,6 +1,9 @@
 package com.flipkart.service;
 
 import com.flipkart.bean.Professor;
+import com.flipkart.bean.Student;
+
+import java.util.List;
 
 /**
  * The interface Professor service.
@@ -11,7 +14,7 @@ public interface ProfessorService {
      *
      * @param professor the professor
      */
-    public void viewStudents(Professor professor);
+    public List<Student> viewStudents(Professor professor);
 
     /**
      * Gets course taught.

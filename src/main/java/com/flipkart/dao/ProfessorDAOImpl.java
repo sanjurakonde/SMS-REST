@@ -29,7 +29,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
     view details of students who are taught by a particular professor
      */
     @Override
-    public void viewStudents(Professor professor) {
+    public List<Student> viewStudents(Professor professor) {
         PreparedStatement stmt = null;
         List<Student> studentList = new ArrayList<Student>();
 
@@ -41,7 +41,13 @@ public class ProfessorDAOImpl implements ProfessorDAO {
                 logger.info("--------------Student List--------------");
                 logger.info("Course Id \t Student Id\tStudent Name\tgender\tSemester");
                 while(rs.next()) {
-                    logger.info(rs.getInt("courseId") + "\t\t" + rs.getInt("studentId") + "\t\t" + rs.getString("studentName") + "\t\t" + rs.getString("gender") + "\t" + rs.getInt("semester"));
+                    Student student = new Student();
+                    student.setStudentId(rs.getInt("studentId"));
+                    student.setStudentName(rs.getString("studentName"));
+                    student.setGender(rs.getString("gender"));
+                    student.setSemester(rs.getInt("semester"));
+                    studentList.add(student);
+                    logger.info(rs.getInt("courseId") + "\t\t" + rs.getInt("studentId") + "\t\t" + rs.getString("studentName") + "\t\t" + rs.getString("branch") + "\t" + rs.getString("gender") + "\t" + rs.getInt("semester"));
                 }
                 logger.info("----------------------------------------");
             }
@@ -50,6 +56,7 @@ public class ProfessorDAOImpl implements ProfessorDAO {
         }catch(Exception e){
             logger.error(e.getMessage());
         }
+        return studentList;
     }
 
     /*

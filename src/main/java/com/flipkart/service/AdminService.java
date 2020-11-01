@@ -4,6 +4,8 @@ import com.flipkart.bean.Course;
 import com.flipkart.bean.Professor;
 import com.flipkart.bean.User;
 
+import java.util.List;
+
 /**
  * The interface Admin service.
  */
@@ -51,5 +53,5 @@ public interface AdminService {
     /**
      * View users.
      */
-    void viewUsers();
+    List<User> viewUsers();
 }

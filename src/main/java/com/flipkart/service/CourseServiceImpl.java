@@ -22,10 +22,8 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void listCourses() {
+    public List<Course> listCourses() {
         List<Course> courses = catalogueDAO.viewCatalog();
-        logger.debug("Course Id\tCourse Name\tFees\tCourse Description");
-
-        courses.forEach(course ->  logger.info(course.getCourseId() + "\t\t" + course.getCourseName() + " \t\t"  + course.getFee() + "\t" + course.getDescription()));
+        return courses;
     }
 }
