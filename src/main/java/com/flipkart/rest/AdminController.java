@@ -1,26 +1,38 @@
 package com.flipkart.rest;
 
-import com.flipkart.bean.Course;
-import com.flipkart.bean.Professor;
-import com.flipkart.bean.User;
-import com.flipkart.service.AdminService;
-import com.flipkart.service.AdminServiceImpl;
-import com.flipkart.service.CourseService;
-import com.flipkart.service.CourseServiceImpl;
+import com.flipkart.bean.*;
+import com.flipkart.service.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+// all operation related to the Admin
 @Path("/admin")
 public class AdminController {
 
     AdminService adminService = new AdminServiceImpl();
 
+    // register admin
+    @POST
+    @Path("/register/{name}/{username}/{password}/{gender}")
+    @Consumes("application/json")
+    public Response registerStudent(@PathParam("name") String adminName, @PathParam("username") String username,
+                                    @PathParam("password") String password, @PathParam("gender") String gender)
+    {
+        Authenticate authenticate = new AuthenticateImpl();
+        Admin admin = new Admin();
+        admin.setName(adminName);
+        admin.setUserName(username);
+        admin.setGender(gender);
+        authenticate.registerAdmin(admin, password);
+        return Response.status(201).entity("User with username " + username + " is successfully registered").build();
+    }
+
     // view courses
     @GET
-    @Path("/view-courses")
+    @Path("/viewCourses")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Course> viewCourses()
     {
@@ -30,7 +42,7 @@ public class AdminController {
 
     //view all the users
     @GET
-    @Path("/view-users")
+    @Path("/viewUsers")
     @Produces(MediaType.APPLICATION_JSON)
     public List<User> viewUsers()
     {
@@ -39,33 +51,34 @@ public class AdminController {
 
     // assign a professor to the course
     @PUT
-    @Path("/assign-professor/{courseId}/{professorId}")
+    @Path("/assignProfessor/{courseId}/{professorId}")
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
-    public void assignProfessor(@PathParam("professorId") int professorId, @PathParam("courseId") int courseId)
+    public Response assignProfessor(@PathParam("professorId") int professorId, @PathParam("courseId") int courseId)
     {
         Professor professor = new Professor();
         professor.setProfessorId(professorId);
         adminService.assignProfessor(professor, courseId);
+        String result = "updated successfully";
+        return Response.status(200).entity(result).build();
     }
 
     // add a course
     @POST
-    @Path("/add-course")
+    @Path("/addCourse/{courseId}/{courseName}")
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response addCourse(Course course) {
-        System.out.println("Adding new course");
-        System.out.println(course.getCourseId());
-        System.out.println(course.getCourseName());
+    public Response addCourse(@PathParam("courseId") int courseId, @PathParam("courseName") String courseName) {
+        Course course = new Course();
+        course.setCourseId(courseId);
+        course.setCourseName(courseName);
         adminService.addCourse(course);
-        String result = "Added "  + course;
-        return Response.status(201).entity(result).build();
+        return Response.status(201).entity("Added the course " + courseName + " Successfully").build();
     }
 
     // delete a course
     @DELETE
-    @Path("/delete-course/{courseId}")
+    @Path("/deleteCourse/{courseId}")
     public Response deleteCourse(@PathParam("courseId") int courseId) {
         Course course = new Course();
         course.setCourseId(courseId);
@@ -73,9 +86,20 @@ public class AdminController {
         return Response.status(200).entity("Course " + " with course id " + courseId + " successfully deleted").build();
     }
 
+    //approve a user
+    @PUT
+    @Path("/approveUser/{userId}")
+    public Response approveUser(@PathParam("userId") int userId)
+    {
+        User user = new User();
+        user.setId(userId);
+        boolean approve = adminService.approveUser(user);
+        return Response.status(200).entity("User with id " + userId + " is approved!").build();
+    }
+
     // delete a user
     @DELETE
-    @Path("/delete-user/{userId}")
+    @Path("/deleteUser/{userId}")
     public Response deleteUser(@PathParam("userId") int userId)
     {
         adminService.deleteUser(userId);
